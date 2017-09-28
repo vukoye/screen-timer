@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.vukoye.screentimer.data.ScreenEvent
 import com.vukoye.screentimer.data.ScreenEventsRepository
+import com.vukoye.screentimer.data.ScreenInterval
 import com.vukoye.screentimer.di.ApplicationComponent
 import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,13 +23,13 @@ class ScreenEventListViewModel : ViewModel(), ApplicationComponent.Injectable {
 //    var screenEvents = screenEventsRepo.getScreenEventsPaged().create(0,
 //            PagedList.Config.Builder().setPageSize(30).setEnablePlaceholders(true).build())
 
-    var screenEvents : LiveData<List<ScreenEvent>> =  MutableLiveData<List<ScreenEvent>>()
+    var screenIntervals : LiveData<List<ScreenInterval>> =  MutableLiveData<List<ScreenInterval>>()
 
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)
 //        screenEvents = screenEventsRepo.getScreenEventsPaged().create(0,
 //                PagedList.Config.Builder().setPageSize(30).setEnablePlaceholders(true).build())
-        screenEvents = screenEventsRepo.getScreenEvents()
+        screenIntervals = screenEventsRepo.getScreenIntervals()
     }
 
     fun deleteScreenEvent(screenEvent: ScreenEvent) {

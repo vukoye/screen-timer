@@ -21,4 +21,7 @@ interface ScreenEventDao {
 
     @Query("SELECT * FROM ScreenEvent ORDER BY date ASC")
     fun allScreenEvents(): LiveData<List<ScreenEvent>>
+
+    @Query("SELECT * FROM ScreenEvent WHERE type = :type ORDER BY date ASC LIMIT 1")
+    fun getLastScreenEventOfType(type : Int): ScreenEvent?
 }

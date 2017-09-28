@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         AndroidThreeTen.init(this)
         startService(Intent(applicationContext, ScreenActionsService::class.java))
-        val adapter = ScreenEventsAdapter(this, object : View.OnClickListener {
+        val adapter = ScreeIntervalAdapter(this, object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 Timber.d("click")
             }
         })
         screenEventsList.adapter = adapter
-        viewModel.screenEvents.observe(this, Observer(adapter::setItems))
+        viewModel.screenIntervals.observe(this, Observer(adapter::setItems))
     }
 }

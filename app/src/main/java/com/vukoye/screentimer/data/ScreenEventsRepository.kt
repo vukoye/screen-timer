@@ -13,4 +13,8 @@ interface ScreenEventsRepository {
     fun deleteScreenEvent(screenEvent: ScreenEvent) : Completable
 
     fun getScreenEvents() : LiveData<List<ScreenEvent>>
+
+    fun getScreenIntervals() : LiveData<List<ScreenInterval>>
+
+    fun updateScreenInterval(screenInterval: ScreenInterval)
 }

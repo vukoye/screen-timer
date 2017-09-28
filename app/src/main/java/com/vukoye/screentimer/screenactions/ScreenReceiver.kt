@@ -9,6 +9,7 @@ import com.vukoye.screentimer.data.ScreenEventsRepository
 import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDateTime
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,9 +21,11 @@ class ScreenReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         (context.applicationContext as ScreenTimerApplication).applicationComponent.inject(this)
-        doAsync {
+
             if (intent.action == Intent.ACTION_SCREEN_OFF) {
-                screenEventsRepo.addScreenEvent(ScreenEvent(0, "ScreenOFF", LocalDateTime.now())).observeOn(AndroidSchedulers.mainThread())
+                screenEventsRepo.addScreenEvent(ScreenEvent(0, "ScreenOFF", LocalDateTime.now()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(object : CompletableObserver {
                             override fun onComplete() {
                                 Timber.d("OnCompleteACTION_SCREEN_ON ")
@@ -40,6 +43,7 @@ class ScreenReceiver : BroadcastReceiver() {
                 Timber.d("Screen OFF")
             } else if (intent.action == Intent.ACTION_SCREEN_ON) {
                 screenEventsRepo.addScreenEvent(ScreenEvent(1, "ScreenON", LocalDateTime.now())).observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
                         .subscribe(object : CompletableObserver {
                             override fun onComplete() {
                                 Timber.d("OnComplete ACTION_SCREEN_ON")
@@ -57,7 +61,6 @@ class ScreenReceiver : BroadcastReceiver() {
                 Timber.d("Screen ON")
             }
         }
-    }
 
     private inline fun doAsync(crossinline f: () -> Unit) {
         Thread({ f() }).start()
