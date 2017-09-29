@@ -16,12 +16,12 @@ interface ScreenEventDao {
     @Delete
     fun delete(event: ScreenEvent)
 
-    @Query("SELECT * FROM ScreenEvent ORDER BY date ASC")
+    @Query("SELECT * FROM ScreenEvent ORDER BY date DESC")
     fun allScreenEventsPaged(): LivePagedListProvider<Int, ScreenEvent>
 
-    @Query("SELECT * FROM ScreenEvent ORDER BY date ASC")
+    @Query("SELECT * FROM ScreenEvent ORDER BY date DESC")
     fun allScreenEvents(): LiveData<List<ScreenEvent>>
 
-    @Query("SELECT * FROM ScreenEvent WHERE type = :type ORDER BY date ASC LIMIT 1")
+    @Query("SELECT * FROM ScreenEvent WHERE type = :type ORDER BY date DESC LIMIT 1")
     fun getLastScreenEventOfType(type : Int): ScreenEvent?
 }
